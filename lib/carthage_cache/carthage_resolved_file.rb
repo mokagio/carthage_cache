@@ -18,6 +18,15 @@ module CarthageCache
       @content ||= File.read(file_path)
     end
 
+    def repositories_data
+      dependencies.map do |line|
+        {
+          name: line.split(' ')[1].gsub('"', ''),
+          digest: Digest::SHA256.hexdigest(line)
+        }
+      end
+    end
+
     def repositories
       dependencies
         .map { |line| line.split(' ')[1] }
