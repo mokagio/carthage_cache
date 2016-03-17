@@ -28,6 +28,16 @@ module CarthageCache
       cartfile.dependencies
     end
 
+    def dependencies_search_patterns
+      cartfile.dependencies.each do |dependency|
+        name = dependency[:name].split('/').last
+
+        dependency[:search_patterns] = ['iOS', 'Mac', 'tvOS', 'watchOS'].map do |platform|
+          File.join(project_path, 'Carthage', 'Build', platform, "#{name}.framework*")
+        end
+      end
+    end
+
     def tmpdir
       @tmpdir ||= create_tmpdir
     end
