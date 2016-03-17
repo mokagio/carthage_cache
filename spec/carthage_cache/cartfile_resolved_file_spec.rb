@@ -27,11 +27,13 @@ describe CarthageCache::CartfileResolvedFile do
       expect(cartfile_resolved.dependencies).to eq([
         {
           name: "mamaral/Neon",
-          digest: "46c7e600644855b4967147cb2b7c79f64a23e634921585d944cf2e487be21e26"
+          digest: "46c7e600644855b4967147cb2b7c79f64a23e634921585d944cf2e487be21e26",
+          identifier: "v0.0.3"
         },
         {
           name: "antitypical/Result",
-          digest: "142f7af128a6bc0fa6965b94ea2bb91d499781fee62a3a247d65cbeab4d00434"
+          digest: "142f7af128a6bc0fa6965b94ea2bb91d499781fee62a3a247d65cbeab4d00434",
+          identifier: "1.0.2"
         }
       ])
     end

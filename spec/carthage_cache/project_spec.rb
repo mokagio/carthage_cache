@@ -28,10 +28,12 @@ describe CarthageCache::Project do
       expect(project.dependencies).to eq([
         {
           name: "mamaral/Neon",
+          identifier: "v0.0.3",
           digest: "46c7e600644855b4967147cb2b7c79f64a23e634921585d944cf2e487be21e26"
         },
         {
           name: "antitypical/Result",
+          identifier: "1.0.2",
           digest: "142f7af128a6bc0fa6965b94ea2bb91d499781fee62a3a247d65cbeab4d00434"
         }
       ])

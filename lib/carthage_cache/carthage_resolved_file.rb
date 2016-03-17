@@ -27,7 +27,8 @@ module CarthageCache
         .map do |line|
           {
             name: line.split(' ')[1].gsub('"', ''),
-            digest: Digest::SHA256.hexdigest(line)
+            digest: Digest::SHA256.hexdigest(line),
+            identifier: line.split(' ')[2].gsub('"', '')
           }
         end
     end
