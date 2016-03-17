@@ -38,6 +38,38 @@ module CarthageCache
       end
     end
 
+    # TODO: this is probably not the best place where to put this method
+    # SRP!
+    #
+    # Returns map of dependencies with only the search patterns that actually
+    # produce a result
+    def dependencies_with_valid_search_patterns
+      dependencies_search_patterns.each do |dependency|
+        dependency[:search_patterns] = dependency[:search_patterns].select { |p| Dir[p].count != 0 }
+      end
+    end
+
+    # TODO: this is probably not the best place where to put this method
+    # SRP!
+    #
+    def zip_instructions
+      dependencies_with_valid_search_patterns.map do |dependency|
+        dependency[:search_patterns].map do |pattern|
+          # TODO: This is not very safe...
+          # We need to go backwards due to pattern being contextual to the file
+          # system:
+          #
+          # /i/dont/know/how/many/foders/there/are/Carthage/Build/platform/Name.framework*
+          platform = pattern.split('/')[-2]
+          {
+            source_pattern: pattern,
+            destination_name: "#{dependency[:name]}-#{platform}-#{dependency[:identifier]}.zip"
+          }
+        end
+      end
+      .flatten
+    end
+
     def tmpdir
       @tmpdir ||= create_tmpdir
     end

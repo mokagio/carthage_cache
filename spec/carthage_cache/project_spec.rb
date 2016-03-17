@@ -46,6 +46,7 @@ describe CarthageCache::Project do
       expect(project.dependencies_search_patterns).to eq([
         {
           name: "mamaral/Neon",
+          identifier: "v0.0.3",
           digest: "46c7e600644855b4967147cb2b7c79f64a23e634921585d944cf2e487be21e26",
           search_patterns: [
             "#{FIXTURE_PATH}/Carthage/Build/iOS/Neon.framework*",
@@ -57,12 +58,68 @@ describe CarthageCache::Project do
         {
           name: "antitypical/Result",
           digest: "142f7af128a6bc0fa6965b94ea2bb91d499781fee62a3a247d65cbeab4d00434",
+          identifier: "1.0.2",
           search_patterns: [
             "#{FIXTURE_PATH}/Carthage/Build/iOS/Result.framework*",
             "#{FIXTURE_PATH}/Carthage/Build/Mac/Result.framework*",
             "#{FIXTURE_PATH}/Carthage/Build/tvOS/Result.framework*",
             "#{FIXTURE_PATH}/Carthage/Build/watchOS/Result.framework*",
           ]
+        }
+      ])
+    end
+  end
+
+  describe "#dependencies_with_valid_search_patterns" do
+
+    it "returns an array of search patterns in the Carthage folder for the Cartfile.resolved dependencies" do
+      expect(project.dependencies_with_valid_search_patterns).to eq([
+        {
+          name: "mamaral/Neon",
+          digest: "46c7e600644855b4967147cb2b7c79f64a23e634921585d944cf2e487be21e26",
+          identifier: "v0.0.3",
+          search_patterns: [
+            "#{FIXTURE_PATH}/Carthage/Build/iOS/Neon.framework*",
+          ]
+        },
+        {
+          name: "antitypical/Result",
+          identifier: "1.0.2",
+          digest: "142f7af128a6bc0fa6965b94ea2bb91d499781fee62a3a247d65cbeab4d00434",
+          search_patterns: [
+            "#{FIXTURE_PATH}/Carthage/Build/iOS/Result.framework*",
+            "#{FIXTURE_PATH}/Carthage/Build/Mac/Result.framework*",
+            "#{FIXTURE_PATH}/Carthage/Build/tvOS/Result.framework*",
+            "#{FIXTURE_PATH}/Carthage/Build/watchOS/Result.framework*",
+          ]
+        }
+      ])
+    end
+  end
+
+  describe "#zip_instructions" do
+
+    it "returns an array on zip information hashes" do
+      expect(project.zip_instructions).to eq([
+        {
+          source_pattern: "#{FIXTURE_PATH}/Carthage/Build/iOS/Neon.framework*",
+          destination_name: "mamaral/Neon-iOS-v0.0.3.zip"
+        },
+        {
+          source_pattern: "#{FIXTURE_PATH}/Carthage/Build/iOS/Result.framework*",
+          destination_name: "antitypical/Result-iOS-1.0.2.zip"
+        },
+        {
+          source_pattern: "#{FIXTURE_PATH}/Carthage/Build/Mac/Result.framework*",
+          destination_name: "antitypical/Result-Mac-1.0.2.zip"
+        },
+        {
+          source_pattern: "#{FIXTURE_PATH}/Carthage/Build/tvOS/Result.framework*",
+          destination_name: "antitypical/Result-tvOS-1.0.2.zip"
+        },
+        {
+          source_pattern: "#{FIXTURE_PATH}/Carthage/Build/watchOS/Result.framework*",
+          destination_name: "antitypical/Result-watchOS-1.0.2.zip"
         }
       ])
     end
