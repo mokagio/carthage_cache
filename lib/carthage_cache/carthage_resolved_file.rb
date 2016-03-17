@@ -18,6 +18,16 @@ module CarthageCache
       @content ||= File.read(file_path)
     end
 
+    def repositories
+      # Note: this code is not very robust.
+      # The Cartfile syntax is a strict subset of OGDL, we might want to
+      # consider better parsing strategies in the future
+      content.lines
+        .select { |line| line[0] == 'g' } # g as in git and github
+        .map { |line| line.split(' ')[1] }
+        .map { |line| line.gsub('"', '') }
+    end
+
   end
 
 end

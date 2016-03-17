@@ -21,4 +21,11 @@ describe CarthageCache::CartfileResolvedFile do
 
   end
 
+  describe "#repositories" do
+
+    it "returns an array of repositories names" do
+      expect(cartfile_resolved.repositories).to eq(["mamaral/Neon", "antitypical/Result"])
+    end
+  end
+
 end
