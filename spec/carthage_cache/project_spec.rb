@@ -22,6 +22,22 @@ describe CarthageCache::Project do
 
   end
 
+  describe "#dependencies" do
+
+    it "returns an array of hashes describing the Carfile.resolved dependencies" do
+      expect(project.dependencies).to eq([
+        {
+          name: "mamaral/Neon",
+          digest: "46c7e600644855b4967147cb2b7c79f64a23e634921585d944cf2e487be21e26"
+        },
+        {
+          name: "antitypical/Result",
+          digest: "142f7af128a6bc0fa6965b94ea2bb91d499781fee62a3a247d65cbeab4d00434"
+        }
+      ])
+    end
+  end
+
   describe "#carthage_build_directory" do
 
     it "returns the project's Carthage build directory" do

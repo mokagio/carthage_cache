@@ -24,6 +24,10 @@ module CarthageCache
       cartfile.digest
     end
 
+    def dependencies
+      cartfile.repositories_data
+    end
+
     def tmpdir
       @tmpdir ||= create_tmpdir
     end
