@@ -25,7 +25,7 @@ module CarthageCache
     end
 
     def dependencies
-      cartfile.repositories_data
+      cartfile.dependencies
     end
 
     def tmpdir
