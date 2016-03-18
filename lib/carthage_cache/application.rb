@@ -36,6 +36,23 @@ module CarthageCache
       archive_builder.build if force || !archive_exist?
     end
 
+    def create_single_archives(force = false)
+      project.zip_instructions.each do |zip_instruction|
+        @archiver.archive(zip_instruction[:source_pattern], zip_instruction[:destination_path])
+      end
+
+      upload_instructions = project.zip_instructions.map do|zip_instruction|
+        {
+          source_path: zip_instruction[:destination_path],
+          destination_name: zip_instruction[:destination_name]
+        }
+      end
+
+      upload_instructions.each do |instruction|
+        repository.upload(instruction[:destination_name], instruction[:source_path])
+      end
+    end
+
     private
 
       def archive_installer
