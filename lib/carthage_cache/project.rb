@@ -61,9 +61,11 @@ module CarthageCache
           #
           # /i/dont/know/how/many/foders/there/are/Carthage/Build/platform/Name.framework*
           platform = pattern.split('/')[-2]
+          name = "#{dependency[:name]}-#{platform}-#{dependency[:identifier]}.zip"
           {
             source_pattern: pattern,
-            destination_name: "#{dependency[:name]}-#{platform}-#{dependency[:identifier]}.zip"
+            destination_name: name,
+            destination_path: File.join(tmpdir, name)
           }
         end
       end
