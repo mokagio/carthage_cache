@@ -135,6 +135,22 @@ describe CarthageCache::Project do
     end
   end
 
+  describe "#archives_names" do
+
+    it "returns the names of the archives for the dependencies on S3" do
+      expect(project.archives_names).to eq([
+        "mamaral/Neon/iOS/Neon-iOS-v0.0.3.zip",
+        "mamaral/Neon/Mac/Neon-Mac-v0.0.3.zip",
+        "mamaral/Neon/tvOS/Neon-tvOS-v0.0.3.zip",
+        "mamaral/Neon/watchOS/Neon-watchOS-v0.0.3.zip",
+        "antitypical/Result/iOS/Result-iOS-1.0.2.zip",
+        "antitypical/Result/Mac/Result-Mac-1.0.2.zip",
+        "antitypical/Result/tvOS/Result-tvOS-1.0.2.zip",
+        "antitypical/Result/watchOS/Result-watchOS-1.0.2.zip"
+      ])
+    end
+  end
+
   describe "#carthage_build_directory" do
 
     it "returns the project's Carthage build directory" do
