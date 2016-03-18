@@ -37,11 +37,16 @@ module CarthageCache
     end
 
     def create_single_archives(force = false)
-      project.zip_instructions.each do |zip_instruction|
+      zip_instructions = project.zip_instructions
+      zip_instructions = zip_instructions.select { |i| !repository.archive_exist?(i[:destination_name]) } unless force
+
+      return false if zip_instructions.count == 0
+
+      zip_instructions.each do |zip_instruction|
         @archiver.archive(zip_instruction[:source_pattern], zip_instruction[:destination_path])
       end
 
-      upload_instructions = project.zip_instructions.map do|zip_instruction|
+      upload_instructions = zip_instructions.map do|zip_instruction|
         {
           source_path: zip_instruction[:destination_path],
           destination_name: zip_instruction[:destination_name]

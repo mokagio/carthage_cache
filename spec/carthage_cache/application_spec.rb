@@ -185,6 +185,63 @@ describe CarthageCache::Application do
 
     end
 
+    context "when the force parameter is set to false" do
+
+      context "when archives for each dependency already exist" do
+        before(:each) do
+          expect(repository).to receive("archive_exist?").at_least(1).and_return(true)
+        end
+
+        it "does not upload any archive" do
+          expect(repository).not_to receive(:upload)
+          application.create_single_archives(false)
+        end
+
+        it "returns false" do
+          expect(application.create_single_archives).to be_falsy
+        end
+
+      end
+
+      context "when archives exist only for some dependencies" do
+        before(:each) do
+          expect(repository).to receive("archive_exist?").with("mamaral/Neon-iOS-v0.0.3.zip").and_return(true)
+          expect(repository).to receive("archive_exist?").at_least(1).and_return(false)
+        end
+
+        it "uploads only the archives for those that do not exist" do
+          expect(repository).to receive(:upload).with(
+            "antitypical/Result-iOS-1.0.2.zip",
+            File.join(tmpdir, "antitypical/Result-iOS-1.0.2.zip")
+          )
+          expect(repository).to receive(:upload).with(
+            "antitypical/Result-Mac-1.0.2.zip",
+            File.join(tmpdir, "antitypical/Result-Mac-1.0.2.zip")
+          )
+          expect(repository).to receive(:upload).with(
+            "antitypical/Result-tvOS-1.0.2.zip",
+            File.join(tmpdir, "antitypical/Result-tvOS-1.0.2.zip")
+          )
+          expect(repository).to receive(:upload).with(
+            "antitypical/Result-watchOS-1.0.2.zip",
+            File.join(tmpdir, "antitypical/Result-watchOS-1.0.2.zip")
+          )
+
+          application.create_single_archives(false)
+        end
+
+      end
+
+      context "when there are no archives for any of the dependencies" do
+        before(:each) do
+          expect(repository).to receive("archive_exist?").at_least(1).and_return(false)
+        end
+
+        it_should_behave_like "uploads all the archives", false
+      end
+
+    end
+
   end
 
 end
