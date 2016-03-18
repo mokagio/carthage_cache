@@ -159,6 +159,34 @@ describe CarthageCache::Application do
 
       end
 
+      context "when archives exist only for some for each dependency exist" do
+
+        it "uploads all the archives" do
+          expect(repository).to receive(:upload).with("mamaral/Neon-iOS-v0.0.3.zip", File.join(tmpdir, "mamaral/Neon-iOS-v0.0.3.zip"))
+          expect(repository).to receive(:upload).with("antitypical/Result-iOS-1.0.2.zip", File.join(tmpdir, "antitypical/Result-iOS-1.0.2.zip"))
+          expect(repository).to receive(:upload).with("antitypical/Result-Mac-1.0.2.zip", File.join(tmpdir, "antitypical/Result-Mac-1.0.2.zip"))
+          expect(repository).to receive(:upload).with("antitypical/Result-tvOS-1.0.2.zip", File.join(tmpdir, "antitypical/Result-tvOS-1.0.2.zip"))
+          expect(repository).to receive(:upload).with("antitypical/Result-watchOS-1.0.2.zip", File.join(tmpdir, "antitypical/Result-watchOS-1.0.2.zip"))
+
+          application.create_single_archives(true)
+        end
+
+      end
+
+      context "when there are no archives for any of the dependencies" do
+
+        it "uploads all the archives" do
+          expect(repository).to receive(:upload).with("mamaral/Neon-iOS-v0.0.3.zip", File.join(tmpdir, "mamaral/Neon-iOS-v0.0.3.zip"))
+          expect(repository).to receive(:upload).with("antitypical/Result-iOS-1.0.2.zip", File.join(tmpdir, "antitypical/Result-iOS-1.0.2.zip"))
+          expect(repository).to receive(:upload).with("antitypical/Result-Mac-1.0.2.zip", File.join(tmpdir, "antitypical/Result-Mac-1.0.2.zip"))
+          expect(repository).to receive(:upload).with("antitypical/Result-tvOS-1.0.2.zip", File.join(tmpdir, "antitypical/Result-tvOS-1.0.2.zip"))
+          expect(repository).to receive(:upload).with("antitypical/Result-watchOS-1.0.2.zip", File.join(tmpdir, "antitypical/Result-watchOS-1.0.2.zip"))
+
+          application.create_single_archives(true)
+        end
+
+      end
+
     end
 
   end
