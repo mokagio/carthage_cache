@@ -141,7 +141,7 @@ describe CarthageCache::Application do
 
   end
 
-  shared_examples_for "uploads all the archives" do
+  shared_examples_for "uploads all the archives" do |force|
     it "adds objects to the end of the collection" do
       expect(repository).to receive(:upload).with(
         "mamaral/Neon-iOS-v0.0.3.zip",
@@ -163,7 +163,7 @@ describe CarthageCache::Application do
         File.join(tmpdir, "antitypical/Result-watchOS-1.0.2.zip")
       )
 
-      application.create_single_archives(true)
+      application.create_single_archives(force)
     end
   end
 
@@ -171,16 +171,16 @@ describe CarthageCache::Application do
 
     context "when the force parameter is set to true" do
 
-      context "when archives for each dependency exist" do
-        it_should_behave_like "uploads all the archives"
+      context "when archives for each dependency already exist" do
+        it_should_behave_like "uploads all the archives", true
       end
 
-      context "when archives exist only for some for each dependency exist" do
-        it_should_behave_like "uploads all the archives"
+      context "when archives exist only for some dependencies" do
+        it_should_behave_like "uploads all the archives", true
       end
 
       context "when there are no archives for any of the dependencies" do
-        it_should_behave_like "uploads all the archives"
+        it_should_behave_like "uploads all the archives", true
       end
 
     end
