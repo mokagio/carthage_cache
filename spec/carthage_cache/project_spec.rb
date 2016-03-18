@@ -104,27 +104,32 @@ describe CarthageCache::Project do
         {
           source_pattern: "#{FIXTURE_PATH}/Carthage/Build/iOS/Neon.framework*",
           destination_name: "mamaral/Neon-iOS-v0.0.3.zip",
-          destination_path: File.join(TMP_PATH, cache_dir_name, "mamaral/Neon-iOS-v0.0.3.zip")
+          destination_path: File.join(TMP_PATH, cache_dir_name, "mamaral/Neon-iOS-v0.0.3.zip"),
+          platform: "iOS"
         },
         {
           source_pattern: "#{FIXTURE_PATH}/Carthage/Build/iOS/Result.framework*",
           destination_name: "antitypical/Result-iOS-1.0.2.zip",
-          destination_path: File.join(TMP_PATH, cache_dir_name, "antitypical/Result-iOS-1.0.2.zip")
+          destination_path: File.join(TMP_PATH, cache_dir_name, "antitypical/Result-iOS-1.0.2.zip"),
+          platform: "iOS"
         },
         {
           source_pattern: "#{FIXTURE_PATH}/Carthage/Build/Mac/Result.framework*",
           destination_name: "antitypical/Result-Mac-1.0.2.zip",
-          destination_path: File.join(TMP_PATH, cache_dir_name, "antitypical/Result-Mac-1.0.2.zip")
+          destination_path: File.join(TMP_PATH, cache_dir_name, "antitypical/Result-Mac-1.0.2.zip"),
+          platform: "Mac"
         },
         {
           source_pattern: "#{FIXTURE_PATH}/Carthage/Build/tvOS/Result.framework*",
           destination_name: "antitypical/Result-tvOS-1.0.2.zip",
-          destination_path: File.join(TMP_PATH, cache_dir_name, "antitypical/Result-tvOS-1.0.2.zip")
+          destination_path: File.join(TMP_PATH, cache_dir_name, "antitypical/Result-tvOS-1.0.2.zip"),
+          platform: "tvOS"
         },
         {
           source_pattern: "#{FIXTURE_PATH}/Carthage/Build/watchOS/Result.framework*",
           destination_name: "antitypical/Result-watchOS-1.0.2.zip",
-          destination_path: File.join(TMP_PATH, cache_dir_name, "antitypical/Result-watchOS-1.0.2.zip")
+          destination_path: File.join(TMP_PATH, cache_dir_name, "antitypical/Result-watchOS-1.0.2.zip"),
+          platform: "watchOS"
         }
       ])
     end

@@ -65,7 +65,8 @@ module CarthageCache
           {
             source_pattern: pattern,
             destination_name: name,
-            destination_path: File.join(tmpdir, name)
+            destination_path: File.join(tmpdir, name),
+            platform: platform
           }
         end
       end
