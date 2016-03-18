@@ -9,7 +9,10 @@ module CarthageCache
     end
 
     def archive(archive_path, destination_path)
-      files = Dir.entries(archive_path).select { |x| !x.start_with?(".") }
+      files = Dir[archive_path]
+      .map { |d| Dir.entries(d) }
+      .flatten
+      .select { |x| !x.start_with?(".") }
       executor.execute("cd #{archive_path} && zip -r -X #{File.expand_path(destination_path)} #{files.join(' ')} > /dev/null")
     end
 
