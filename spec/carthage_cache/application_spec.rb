@@ -141,50 +141,46 @@ describe CarthageCache::Application do
 
   end
 
+  shared_examples_for "uploads all the archives" do
+    it "adds objects to the end of the collection" do
+      expect(repository).to receive(:upload).with(
+        "mamaral/Neon-iOS-v0.0.3.zip",
+        File.join(tmpdir, "mamaral/Neon-iOS-v0.0.3.zip")
+      )
+      expect(repository).to receive(:upload).with(
+        "antitypical/Result-iOS-1.0.2.zip",
+        File.join(tmpdir, "antitypical/Result-iOS-1.0.2.zip")
+      )
+      expect(repository).to receive(:upload).with(
+        "antitypical/Result-Mac-1.0.2.zip",
+        File.join(tmpdir, "antitypical/Result-Mac-1.0.2.zip"))
+      expect(repository).to receive(:upload).with(
+        "antitypical/Result-tvOS-1.0.2.zip",
+        File.join(tmpdir, "antitypical/Result-tvOS-1.0.2.zip")
+      )
+      expect(repository).to receive(:upload).with(
+        "antitypical/Result-watchOS-1.0.2.zip",
+        File.join(tmpdir, "antitypical/Result-watchOS-1.0.2.zip")
+      )
+
+      application.create_single_archives(true)
+    end
+  end
+
   describe "#create_single_archives" do
 
     context "when the force parameter is set to true" do
 
       context "when archives for each dependency exist" do
-
-        it "uploads all the archives" do
-          expect(repository).to receive(:upload).with("mamaral/Neon-iOS-v0.0.3.zip", File.join(tmpdir, "mamaral/Neon-iOS-v0.0.3.zip"))
-          expect(repository).to receive(:upload).with("antitypical/Result-iOS-1.0.2.zip", File.join(tmpdir, "antitypical/Result-iOS-1.0.2.zip"))
-          expect(repository).to receive(:upload).with("antitypical/Result-Mac-1.0.2.zip", File.join(tmpdir, "antitypical/Result-Mac-1.0.2.zip"))
-          expect(repository).to receive(:upload).with("antitypical/Result-tvOS-1.0.2.zip", File.join(tmpdir, "antitypical/Result-tvOS-1.0.2.zip"))
-          expect(repository).to receive(:upload).with("antitypical/Result-watchOS-1.0.2.zip", File.join(tmpdir, "antitypical/Result-watchOS-1.0.2.zip"))
-
-          application.create_single_archives(true)
-        end
-
+        it_should_behave_like "uploads all the archives"
       end
 
       context "when archives exist only for some for each dependency exist" do
-
-        it "uploads all the archives" do
-          expect(repository).to receive(:upload).with("mamaral/Neon-iOS-v0.0.3.zip", File.join(tmpdir, "mamaral/Neon-iOS-v0.0.3.zip"))
-          expect(repository).to receive(:upload).with("antitypical/Result-iOS-1.0.2.zip", File.join(tmpdir, "antitypical/Result-iOS-1.0.2.zip"))
-          expect(repository).to receive(:upload).with("antitypical/Result-Mac-1.0.2.zip", File.join(tmpdir, "antitypical/Result-Mac-1.0.2.zip"))
-          expect(repository).to receive(:upload).with("antitypical/Result-tvOS-1.0.2.zip", File.join(tmpdir, "antitypical/Result-tvOS-1.0.2.zip"))
-          expect(repository).to receive(:upload).with("antitypical/Result-watchOS-1.0.2.zip", File.join(tmpdir, "antitypical/Result-watchOS-1.0.2.zip"))
-
-          application.create_single_archives(true)
-        end
-
+        it_should_behave_like "uploads all the archives"
       end
 
       context "when there are no archives for any of the dependencies" do
-
-        it "uploads all the archives" do
-          expect(repository).to receive(:upload).with("mamaral/Neon-iOS-v0.0.3.zip", File.join(tmpdir, "mamaral/Neon-iOS-v0.0.3.zip"))
-          expect(repository).to receive(:upload).with("antitypical/Result-iOS-1.0.2.zip", File.join(tmpdir, "antitypical/Result-iOS-1.0.2.zip"))
-          expect(repository).to receive(:upload).with("antitypical/Result-Mac-1.0.2.zip", File.join(tmpdir, "antitypical/Result-Mac-1.0.2.zip"))
-          expect(repository).to receive(:upload).with("antitypical/Result-tvOS-1.0.2.zip", File.join(tmpdir, "antitypical/Result-tvOS-1.0.2.zip"))
-          expect(repository).to receive(:upload).with("antitypical/Result-watchOS-1.0.2.zip", File.join(tmpdir, "antitypical/Result-watchOS-1.0.2.zip"))
-
-          application.create_single_archives(true)
-        end
-
+        it_should_behave_like "uploads all the archives"
       end
 
     end
