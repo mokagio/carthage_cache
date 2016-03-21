@@ -8,7 +8,7 @@ module CarthageCache
       @executor = executor
     end
 
-    def archive(archive_path, destination_path)
+    def archive_contents_of_folder(archive_path, destination_path)
       files = Dir[archive_path]
       .map { |d| Dir.entries(d) }
       .flatten

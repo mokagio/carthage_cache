@@ -31,7 +31,7 @@ module CarthageCache
         # the archive.
         archive_path = File.join(project.tmpdir, project.archive_filename)
         terminal.puts "Archiving Carthage build directory."
-        archiver.archive(project.carthage_build_directory, archive_path)
+        archiver.archive_contents_of_folder(project.carthage_build_directory, archive_path)
         archive_path
       end
 

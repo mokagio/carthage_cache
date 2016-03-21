@@ -7,12 +7,12 @@ describe CarthageCache::Archiver do
   let(:archive_path) { File.join(TMP_PATH, "archive.zip") }
   subject(:archiver) { CarthageCache::Archiver.new(executor) }
 
-  describe "#archive" do
+  describe "#archive_contents_of_folder" do
 
     it "creates a zip file with the content of the project's 'Carthage/Build' directory" do
       expected_command = "cd #{build_directory} && zip -r -X #{archive_path} iOS Mac tvOS watchOS > /dev/null"
       expect(executor).to receive(:execute).with(expected_command)
-      archiver.archive(build_directory, archive_path)
+      archiver.archive_contents_of_folder(build_directory, archive_path)
     end
 
   end
