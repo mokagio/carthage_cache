@@ -17,6 +17,19 @@ describe CarthageCache::Archiver do
 
   end
 
+  describe "#archive_matching_pattern_in_folder" do
+
+    it "creates a zip file with all the files matching the given pattern, and writes it to the given destination" do
+      source_folder = "any/folder"
+      pattern = "some/pattern*"
+      archive_path = "any/destination/path"
+      expected_command = "pushd #{source_folder}; mkdir -p #{File.dirname(archive_path)}; zip -r #{archive_path} #{pattern} > /dev/null; popd"
+      expect(executor).to receive(:execute).with(expected_command)
+      archiver.archive_matching_pattern_in_folder(source_folder, pattern, archive_path)
+    end
+
+  end
+
   describe "#unarchive" do
 
     it "unzips the archive file into the project's 'Carthage/Build' directory" do

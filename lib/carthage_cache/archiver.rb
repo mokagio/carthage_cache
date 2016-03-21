@@ -13,7 +13,13 @@ module CarthageCache
       .map { |d| Dir.entries(d) }
       .flatten
       .select { |x| !x.start_with?(".") }
+      puts "#{files}"
       executor.execute("cd #{archive_path} && zip -r -X #{File.expand_path(destination_path)} #{files.join(' ')} > /dev/null")
+    end
+
+    def archive_matching_pattern_in_folder(source_folder, pattern, archive_path)
+      command = "pushd #{source_folder}; mkdir -p #{File.dirname(archive_path)}; zip -r #{archive_path} #{pattern} > /dev/null; popd"
+      executor.execute(command)
     end
 
     def unarchive(archive_path, destination_path)
