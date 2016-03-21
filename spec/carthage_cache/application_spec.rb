@@ -32,6 +32,35 @@ describe CarthageCache::Application do
 
   end
 
+  describe "#existing_single_archives" do
+
+    context "when no single archive exists for any of the dependencies in the Carfile.resolved file" do
+
+      it "returns an empty array" do
+        expect(repository).to receive('archive_exist?').at_least(1).and_return(false)
+
+        expect(application.existing_single_archives).to eq([])
+      end
+
+    end
+
+    context "when some archives exist for dependencies in the Carfile.resolved file" do
+
+      it "returns the names of those archives" do
+        expect(repository).to receive("archive_exist?").with("mamaral/Neon/iOS/Neon-iOS-v0.0.3.zip").and_return(true)
+        expect(repository).to receive("archive_exist?").with("antitypical/Result/Mac/Result-Mac-1.0.2.zip").and_return(true)
+        expect(repository).to receive('archive_exist?').at_least(1).and_return(false)
+
+        expect(application.existing_single_archives).to eq([
+          "mamaral/Neon/iOS/Neon-iOS-v0.0.3.zip",
+          "antitypical/Result/Mac/Result-Mac-1.0.2.zip"
+        ])
+      end
+
+    end
+
+  end
+
   describe "#install_archive" do
 
     before(:each) do

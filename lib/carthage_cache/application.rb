@@ -22,6 +22,12 @@ module CarthageCache
       repository.archive_exist?(project.archive_filename)
     end
 
+    def existing_single_archives
+      existing_archives = project.archives_names.select do |name|
+        repository.archive_exist?(name)
+      end
+    end
+
     def install_archive
       if archive_exist?
         archive_installer.install
@@ -33,10 +39,7 @@ module CarthageCache
     end
 
     def install_single_archives
-      existing_archives = project.archives_names.select do |name|
-        repository.archive_exist?(name)
-      end
-
+      existing_archives = existing_single_archives
       unarchive_instructions = existing_archives.map do |name|
         {
           source: name,
