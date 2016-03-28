@@ -43,7 +43,11 @@ module CarthageCache
       unarchive_instructions = existing_archives.map do |name|
         {
           source: name,
+          destination: 
         }
+      end
+      .each do |instruction|
+        archiver.unarchive()
       end
 
       existing_archives
@@ -60,7 +64,9 @@ module CarthageCache
       return false if zip_instructions.count == 0
 
       zip_instructions.each do |zip_instruction|
-        @archiver.archive(zip_instruction[:source_pattern], zip_instruction[:destination_path])
+        source_folder = zip_instruction[:source_pattern].split('/')[0...-1].join('/')
+        pattern = zip_instruction[:source_pattern].split('/').last
+        archiver.archive_matching_pattern_in_folder(source_folder, pattern, zip_instruction[:destination_path])
       end
 
       upload_instructions = zip_instructions.map do|zip_instruction|
@@ -71,6 +77,8 @@ module CarthageCache
       end
 
       upload_instructions.each do |instruction|
+        puts "Uploading archive with name #{instruction[:destination_name]}"
+
         repository.upload(instruction[:destination_name], instruction[:source_path])
       end
     end

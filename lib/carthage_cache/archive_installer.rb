@@ -19,6 +19,14 @@ module CarthageCache
       unarchive(archive_path)
     end
 
+    def install_single_dependencies(paths)
+      build_directory = create_carthage_build_directory
+
+      paths.each do |path|
+        archiver.unarchive(archive_path, destination)
+      end
+    end
+
     private
 
       def create_carthage_build_directory

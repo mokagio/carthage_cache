@@ -21,9 +21,23 @@ command :exist do |c|
   c.syntax = "#{PROGRAM_NAME} exist [PROJECT_PATH]"
   c.description = 'Checks if a cache archive exists for the current Cartfile.resolved.'
   c.option '-s', '--script', 'Makes prgram write "true" or "false" to STDOUT instead of more verbose message.'
+  c.option '-g', '--granular-cache', 'Also checks if archives exist for each of the dependencies in the current Cartfile.resolved'
   c.action do |args, options|
     app = CarthageCache::Application.new(args.first || ".", verbose, config)
-    if app.archive_exist?
+    archive_exists = app.archive_exist?
+
+    if options.granular_cache
+      existing_archives = app.existing_single_archives
+
+      if existing_archives.empty?
+        puts "No cached archive found for any of the Cartfile.resolved dependencies."
+      else
+        puts "Found single archives:"
+        existing_archives.each { |archive| puts "\t- #{archive}" }
+      end
+    end
+
+    if archive_exists
       if options.script
         puts "true"
       else
@@ -43,9 +57,14 @@ end
 command :install do |c|
   c.syntax = "#{PROGRAM_NAME} install [PROJECT_PATH]"
   c.description = 'Installs the cache archive for the current Cartfile.resolved.'
+  c.option '-g', '--granular-cache', 'Look for cached version of the single dependencies listed in the current Cartfile.resolved before attempting to download the archive for the entire Carthage/Build folder'
   c.action do |args, options|
     app = CarthageCache::Application.new(args.first || ".", verbose, config)
-    exit 1 unless app.install_archive
+    if options.granular_cache
+      puts app.install_single_archives
+    else
+      exit 1 unless app.install_archive
+    end
   end
 end
 
@@ -53,10 +72,13 @@ command :publish do |c|
   c.syntax = "#{PROGRAM_NAME} publish [PROJECT_PATH]"
   c.description = 'Generates and uploads the cache archive for the current Cartfile.resolved.'
   c.option '-f', '--force', 'Forces to create a new archive even if an archive already exist.'
+  c.option '-g', '--granular-cache', 'Also generates and upload an archive for each of the dependencies in the current Cartfile.resolved'
   c.action do |args, options|
     options.default force: false
     app = CarthageCache::Application.new(args.first || ".", verbose, config)
     app.create_archive(options.force)
+
+    app.create_single_archives(options.force) if options.granular_cache
   end
 end
 

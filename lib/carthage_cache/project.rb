@@ -77,9 +77,7 @@ module CarthageCache
       platforms = ["iOS", "Mac", "tvOS", "watchOS"]
       dependencies.map do |dependency|
         platforms.map do |platform|
-          full_name = dependency[:name]
-          name = dependency[:name].split("/")[1..-1].join
-          "#{dependency[:name]}/#{platform}/#{name}-#{platform}-#{dependency[:identifier]}.zip"
+          "#{dependency[:name]}-#{platform}-#{dependency[:identifier]}.zip"
         end
       end
       .flatten
